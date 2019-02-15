@@ -1,0 +1,11 @@
+node_modules/**/*
+*.vscode/**
+keystore/*
+*google-services.json
+.expo/*
+npm-debug.*
+*.jks
+**/*.jks
+*.p12
+*.key
+*.mobileprovision

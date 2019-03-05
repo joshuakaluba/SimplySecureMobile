@@ -5,6 +5,8 @@ export default StringDictionary = {
     addNewLocationUser: 'Add New Location User',
     addNewModule: 'Add New Module',
     terms: 'Terms & Conditions',
+    panic: 'Trigger Panic Alarm',
+    panicConfirmation: 'Are you sure you want to trigger panic alarm?',
     acceptedTerms: 'I have accepted the Terms/Conditions & Privacy Policy',
     register: 'Register',
     registerTitle: 'Please Register',

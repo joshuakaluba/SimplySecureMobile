@@ -4,6 +4,7 @@ import ModuleRepository from './ModuleRepository';
 import LocationUsersRepository from './LocationUsersRepository';
 import LocationActionEventsRepository from './LocationActionEventsRepository';
 import ModuleEventsRepository from './ModuleEventsRepository';
+import PanicRepository from './PanicRepository';
 
 export {
     UserAccountRepository,
@@ -11,5 +12,6 @@ export {
     ModuleRepository,
     LocationUsersRepository,
     LocationActionEventsRepository,
-    ModuleEventsRepository
+    ModuleEventsRepository,
+    PanicRepository
 }

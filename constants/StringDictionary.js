@@ -36,6 +36,7 @@ export default StringDictionary = {
     manage: 'Manage',
     registerError: 'Unable to register',
     locationSaveError: 'Unable to save location',
+    panicErrorMessage: 'Unable to send panic alarm',
     moduleSaveError: 'Unable to save module',
     locationDeleteError: 'Unable to delete location',
     moduleDeleteError: 'Unable to delete module',

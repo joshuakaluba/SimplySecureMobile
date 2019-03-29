@@ -38,6 +38,13 @@ export default Lib = {
         return moment.utc(dateToFormat).local().format("MMM Do, YYYY");
     },
 
+    generateGuid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    },
+
     async getServerStatus() {
         const serverAddress = await StorageHelper.getServerAddress();
         const response = await fetch(serverAddress + `/Home/Ping/`, {

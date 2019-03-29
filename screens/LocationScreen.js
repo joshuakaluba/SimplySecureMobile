@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { Icon } from 'expo';
 import Modal from "react-native-modal";
 import { CheckBox } from 'react-native-elements';
-import { Col, Row, Grid } from "react-native-easy-grid";
+import { Col, Grid } from "react-native-easy-grid";
 import { Colors, StringDictionary, ApplicationDefaultSettings, DefaultStyles } from '../constants';
-import { PrimaryButton, PrimaryFormInput, ArmLocationButton, DeleteButton } from '../components';
-import { LocationRepository } from '../dataaccesslayer';
+import { PrimaryButton, PrimaryFormInput, ArmLocationButton, DeleteButton, PanicButton } from '../components';
+import { LocationRepository, PanicRepository } from '../dataaccesslayer';
 import { Lib } from '../utilities';
 
 export default class LocationScreen extends Component {
@@ -150,51 +150,68 @@ export default class LocationScreen extends Component {
         }
     }
 
+    _triggerPanicAlert = async () => {
+        try {
+
+            await PanicRepository.triggerPanicAlarm();
+
+            alert(StringDictionary.panicSent);
+
+        } catch (error) {
+            this._endLoading();
+            Lib.showError(error);
+        }
+    }
+
     render() {
         return (
-            <View style={DefaultStyles.container}>
-                <ScrollView style={[styles.container]}
-                    refreshControl={
+            <View style={styles.container}>
+                <View style={[styles.box, styles.body]}>
+                    <ScrollView refreshControl={
                         <RefreshControl
                             refreshing={this.state.loading}
-                            onRefresh={this._getLocations.bind(this)}
-                        />
+                            onRefresh={this._getLocations.bind(this)} />
                     }>
-                    {
-                        this.state.locations.map((location) => (
+                        {
+                            this.state.locations.map((location) => (
 
-                            <TouchableOpacity key={location.id} onPress={() => { this._selectLocation(location) }}>
-                                <View style={[styles.card]}>
+                                <TouchableOpacity key={location.id} onPress={() => { this._selectLocation(location) }}>
+                                    <View style={[styles.card]}>
 
-                                    <View style={styles.listHeader}>
-                                        <Text style={[DefaultStyles.scrollViewHeaderText]}>
-                                            {location.name}
-                                        </Text>
-                                    </View>
-                                    <Grid style={styles.grid}>
-
-                                        <Col style={{ backgroundColor: 'white', padding: 5 }}>
-                                            <Text style={
-                                                {
-                                                    fontSize: 15,
-                                                    color: Colors.defaultTextColor
-                                                }}>
-                                                State: {location.status}
+                                        <View style={styles.listHeader}>
+                                            <Text style={[DefaultStyles.scrollViewHeaderText]}>
+                                                {location.name}
                                             </Text>
-                                        </Col>
-                                        <Col style={{
-                                            backgroundColor: location.armed == true ? Colors.danger : Colors.success,
-                                            width: 25,
-                                            height: 25,
-                                            borderRadius: 5
-                                        }}>
-                                        </Col>
+                                        </View>
+                                        <Grid style={styles.grid}>
 
-                                    </Grid>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                </ScrollView>
+                                            <Col style={{ backgroundColor: 'white', padding: 5 }}>
+                                                <Text style={
+                                                    {
+                                                        fontSize: 15,
+                                                        color: Colors.defaultTextColor
+                                                    }}>
+                                                    State: {location.status}
+                                                </Text>
+                                            </Col>
+                                            <Col style={{
+                                                backgroundColor: location.armed == true ? Colors.danger : Colors.success,
+                                                width: 25,
+                                                height: 25,
+                                                borderRadius: 5
+                                            }}>
+                                            </Col>
+
+                                        </Grid>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                    </ScrollView>
+                </View>
+
+                <View style={[styles.box, styles.footer, { alignItems: 'center' }]}>
+                    <PanicButton onPress={this._triggerPanicAlert} />
+                </View>
 
                 <Modal isVisible={this.state.showAddNewLocationModal === true} onBackdropPress={() => this.setState({ showAddNewLocationModal: false })}>
                     <View style={styles.modalContent} >
@@ -288,7 +305,10 @@ export default class LocationScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
+        flex: 1,
+        padding: 5,
+        flexDirection: 'column',
+        backgroundColor: Colors.bodyBackgroundColor,
     },
     listHeader: {
         padding: 10,
@@ -311,10 +331,11 @@ const styles = StyleSheet.create({
         borderColor: "rgba(0, 0, 0, 0.1)"
     },
     body: {
-        flex: 7
+        flex: 10
     },
     footer: {
-        flex: 3,
+        flex: 1.5,
+        paddingBottom: 10,
         marginTop: 'auto'
     },
     card: {

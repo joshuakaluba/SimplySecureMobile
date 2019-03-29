@@ -1,5 +1,5 @@
 import { StringDictionary } from '../constants';
-import { StorageHelper } from '../utilities';
+import { StorageHelper, Lib } from '../utilities';
 
 export default PanicRepository = {
 
@@ -9,7 +9,7 @@ export default PanicRepository = {
 
         const response = await fetch(restHelper.serverAddress + '/api/Panic', {
             method: 'post',
-            body: JSON.stringify({ id: "02332a2b-b8e9-49e4-a37d-6bdb924271a7" }), //TODO
+            body: JSON.stringify({ id: Lib.generateGuid() }),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${restHelper.token}`

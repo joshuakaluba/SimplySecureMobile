@@ -25,6 +25,7 @@ export default StringDictionary = {
     error: 'error',
     isSilentAlarm: 'Location a silent alarm?',
     isMotionDetector: 'Motion Detector?',
+    panicSent: 'Your panic message has been sent',
     logoutConfirmation: 'Are you sure you want to log out?',
     fullName: 'Full Name',
     invalidPassword: 'Please enter a valid password. Password should be at least 6 characters',
